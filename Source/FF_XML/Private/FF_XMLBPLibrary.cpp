@@ -179,19 +179,7 @@ bool UFF_XMLBPLibrary::XML_Element_Add_Single(UFFXMLElement*& Out_Element, UObje
     return true;
 }
 
-bool UFF_XMLBPLibrary::XML_Element_Remove(UPARAM(ref)UFFXMLDoc*& In_Doc, UPARAM(ref)UFFXMLElement*& TargetElement)
-{
-    if (!IsValid(In_Doc))
-    {
-        return false;
-    }
-
-    In_Doc->Document.DeleteChild(TargetElement->Element);
-
-    return true;
-}
-
-bool UFF_XMLBPLibrary::XML_Comment_Add(UObject* Target, FString In_Comment)
+bool UFF_XMLBPLibrary::XML_Comment_Add(UFFXMLComment*& Out_Comment, UObject* Target, FString In_Comment)
 {
     if (!IsValid(Target))
     {
@@ -218,15 +206,44 @@ bool UFF_XMLBPLibrary::XML_Comment_Add(UObject* Target, FString In_Comment)
         return false;
     }
 
+    Out_Comment = NewObject<UFFXMLComment>();
+    Out_Comment->Comment = CommentNode;
+
     return true;
 }
 
-bool UFF_XMLBPLibrary::XML_Node_Add(UPARAM(ref)UFFXMLDoc*& In_Doc, UFFXMLElement* Element_Parent, UFFXMLElement*& Element_Child, FString ElementName, TMap<FString, FString> In_String)
+bool UFF_XMLBPLibrary::XML_Element_Remove(UPARAM(ref)UFFXMLDoc*& In_Doc, UPARAM(ref)UObject*& Target)
 {
     if (!IsValid(In_Doc))
     {
         return false;
     }
 
-    return true;
+    if (!IsValid(Target))
+    {
+        return false;
+    }
+
+    UFFXMLElement* TargetElement = Cast<UFFXMLElement>(Target);
+    if (IsValid(TargetElement))
+    {
+        In_Doc->Document.DeleteNode(TargetElement->Element);
+        Target = nullptr;
+
+        return true;
+    }
+
+    UFFXMLComment* TargetComment = Cast<UFFXMLComment>(Target);
+    if (IsValid(TargetComment))
+    {
+        In_Doc->Document.DeleteNode(TargetComment->Comment);
+        Target = nullptr;
+
+        return true;
+    }
+
+    else
+    {
+        return false;
+    }
 }

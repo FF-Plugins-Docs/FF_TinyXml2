@@ -40,13 +40,13 @@ public:
 };
 
 UCLASS(BlueprintType)
-class FF_XML_API UFFXMLNode : public UObject
+class FF_XML_API UFFXMLComment : public UObject
 {
 	GENERATED_BODY()
 
 public:
 
-	XMLNode* Node = nullptr;
+	XMLComment* Comment = nullptr;
 
 };
 
@@ -70,13 +70,10 @@ class UFF_XMLBPLibrary : public UBlueprintFunctionLibrary
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "XML - Add Element (Single Value)", Keywords = "xml, document, element, child, add"), Category = "FF_XML")
 	static bool XML_Element_Add_Single(UFFXMLElement*& Out_Element, UObject* Target, FString ElementName, FString ElementValue);
 
-	UFUNCTION(BlueprintCallable, meta = (DisplayName = "XML - Remove Element", Keywords = "xml, document, element, child, add"), Category = "FF_XML")
-	static bool XML_Element_Remove(UPARAM(ref)UFFXMLDoc*& In_Doc, UPARAM(ref)UFFXMLElement*& TargetElement);
-
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "XML - Add Comment", Keywords = "xml, document, comment, add"), Category = "FF_XML")
-	static bool XML_Comment_Add(UObject* Target, FString In_Comment);
+	static bool XML_Comment_Add(UFFXMLComment*& Out_Comment, UObject* Target, FString In_Comment);
 
-	UFUNCTION(BlueprintCallable, meta = (DisplayName = "XML - Add Node", Keywords = "xml, document, node, child, add"), Category = "FF_XML")
-	static bool XML_Node_Add(UPARAM(ref)UFFXMLDoc*& In_Doc, UFFXMLElement* Element_Parent, UFFXMLElement*& Element_Child, FString ElementName, TMap<FString, FString> In_String);
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "XML - Remove Element", Keywords = "xml, document, element, child, add"), Category = "FF_XML")
+	static bool XML_Element_Remove(UPARAM(ref)UFFXMLDoc*& In_Doc, UPARAM(ref)UObject*& Target);
 
 };
