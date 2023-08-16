@@ -10,19 +10,8 @@ public class FF_XML : ModuleRules
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 
-        if (UnrealTargetPlatform.Win64 == Target.Platform)
-        {
-            string Location_TinyXML = "../Source/FF_XML/ThirdParty/tinyxml/Windows/include";
-            PrivateIncludePaths.Add(Location_TinyXML);
-
-            PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "ThirdParty", "tinyxml", "Windows", "lib", "tinyxml2.lib"));
-        }
-
-        if (UnrealTargetPlatform.Android == Target.Platform)
-        {
-            string Location_open62541 = "../Source/OPC_Client/ThirdParty/open62541/Android";
-            PrivateIncludePaths.Add(Location_open62541);
-        }
+        string Location_TinyXML = "../Source/FF_XML/ThirdParty/tinyxml";
+        PrivateIncludePaths.Add(Location_TinyXML);
 
         PublicDependencyModuleNames.AddRange(
 			new string[]
