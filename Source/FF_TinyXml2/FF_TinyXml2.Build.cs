@@ -4,13 +4,13 @@ using System;
 using System.IO;
 using UnrealBuildTool;
 
-public class FF_XML : ModuleRules
+public class FF_TinyXml2 : ModuleRules
 {
-	public FF_XML(ReadOnlyTargetRules Target) : base(Target)
+	public FF_TinyXml2(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 
-        string Location_TinyXML = "../Source/FF_XML/ThirdParty/tinyxml";
+        string Location_TinyXML = "../Source/FF_TinyXml2/ThirdParty/tinyxml";
         PrivateIncludePaths.Add(Location_TinyXML);
 
         PublicDependencyModuleNames.AddRange(
@@ -31,7 +31,6 @@ public class FF_XML : ModuleRules
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);
-		
 		
 		DynamicallyLoadedModuleNames.AddRange(
 			new string[]

@@ -4,7 +4,7 @@
 
 #include "Modules/ModuleManager.h"
 
-class FFF_XMLModule : public IModuleInterface
+class FFF_TinyXml2Module : public IModuleInterface
 {
 public:
 

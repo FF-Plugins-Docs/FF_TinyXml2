@@ -1,16 +1,16 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-#include "FF_XML.h"
+#include "FF_TinyXml2.h"
 
-#define LOCTEXT_NAMESPACE "FFF_XMLModule"
+#define LOCTEXT_NAMESPACE "FFF_TinyXml2Module"
 
-void FFF_XMLModule::StartupModule()
+void FFF_TinyXml2Module::StartupModule()
 {
 	// This code will execute after your module is loaded into memory; the exact timing is specified in the .uplugin file per-module
 	
 }
 
-void FFF_XMLModule::ShutdownModule()
+void FFF_TinyXml2Module::ShutdownModule()
 {
 	// This function may be called during shutdown to clean up your module.  For modules that support dynamic reloading,
 	// we call this function before unloading the module.
@@ -19,4 +19,4 @@ void FFF_XMLModule::ShutdownModule()
 
 #undef LOCTEXT_NAMESPACE
 	
-IMPLEMENT_MODULE(FFF_XMLModule, FF_XML)
+IMPLEMENT_MODULE(FFF_TinyXml2Module, FF_TinyXml2)

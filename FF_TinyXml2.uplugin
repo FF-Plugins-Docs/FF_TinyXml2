@@ -2,10 +2,10 @@
 	"FileVersion": 3,
 	"Version": 1,
 	"VersionName": "1.0",
-	"FriendlyName": "FF_XML",
+	"FriendlyName": "FF_TinyXml2",
 	"Description": "",
-	"Category": "Other",
-	"CreatedBy": "",
+	"Category": "Frozen Forest",
+	"CreatedBy": "Frozen Forest Reality Technologies",
 	"CreatedByURL": "",
 	"DocsURL": "",
 	"MarketplaceURL": "",
@@ -16,7 +16,7 @@
 	"Installed": false,
 	"Modules": [
 		{
-			"Name": "FF_XML",
+			"Name": "FF_TinyXml2",
 			"Type": "Runtime",
 			"LoadingPhase": "PreLoadingScreen"
 		}

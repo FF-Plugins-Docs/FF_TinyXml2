@@ -1,20 +1,20 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-#include "FF_XMLBPLibrary.h"
-#include "FF_XML.h"
+#include "FF_TinyXml2BPLibrary.h"
+#include "FF_TinyXml2.h"
 
 // UE Includes.
 #include "Kismet/GameplayStatics.h"
 
-UFF_XMLBPLibrary::UFF_XMLBPLibrary(const FObjectInitializer& ObjectInitializer)
+UFF_TinyXml2BPLibrary::UFF_TinyXml2BPLibrary(const FObjectInitializer& ObjectInitializer)
 : Super(ObjectInitializer)
 {
 
 }
 
-void UFF_XMLBPLibrary::XML_Doc_Create(UFFXMLDoc*& Out_Doc, FString CustomDeclaration, bool bAddDeclaration)
+void UFF_TinyXml2BPLibrary::TinyXML2_Doc_Create(UFFTinyXml2_Doc*& Out_Doc, FString CustomDeclaration, bool bAddDeclaration)
 {
-	Out_Doc = NewObject< UFFXMLDoc>();
+	Out_Doc = NewObject< UFFTinyXml2_Doc>();
     if (bAddDeclaration)
     {
         XMLDeclaration* Declaration = Out_Doc->Document.NewDeclaration(CustomDeclaration.IsEmpty() ? NULL : TCHAR_TO_UTF8(*CustomDeclaration));
@@ -22,7 +22,7 @@ void UFF_XMLBPLibrary::XML_Doc_Create(UFFXMLDoc*& Out_Doc, FString CustomDeclara
     }
 }
 
-bool UFF_XMLBPLibrary::XML_Doc_Save(UPARAM(ref)UFFXMLDoc*& In_Doc, FString In_Path)
+bool UFF_TinyXml2BPLibrary::TinyXML2_Doc_Save(UPARAM(ref)UFFTinyXml2_Doc*& In_Doc, FString In_Path)
 {
     if (!IsValid(In_Doc))
     {
@@ -52,7 +52,7 @@ bool UFF_XMLBPLibrary::XML_Doc_Save(UPARAM(ref)UFFXMLDoc*& In_Doc, FString In_Pa
     return true;
 }
 
-bool UFF_XMLBPLibrary::XML_Doc_Print(UPARAM(ref)UFFXMLDoc*& In_Doc, FString& Out_String)
+bool UFF_TinyXml2BPLibrary::TinyXML2_Doc_Print(UPARAM(ref)UFFTinyXml2_Doc*& In_Doc, FString& Out_String)
 {
     if (!IsValid(In_Doc))
     {
@@ -67,7 +67,7 @@ bool UFF_XMLBPLibrary::XML_Doc_Print(UPARAM(ref)UFFXMLDoc*& In_Doc, FString& Out
     return true;
 }
 
-bool UFF_XMLBPLibrary::XML_Element_Add_Map(UFFXMLElement*& Out_Element, UObject* Target, FString ElementName, FString ElementValue, TMap<FString, FString> Attributes)
+bool UFF_TinyXml2BPLibrary::TinyXML2_Element_Add_Map(UFFTinyXml2_Element*& Out_Element, UObject* Target, FString ElementName, FString ElementValue, TMap<FString, FString> Attributes)
 {
     if (!IsValid(Target))
     {
@@ -82,8 +82,8 @@ bool UFF_XMLBPLibrary::XML_Element_Add_Map(UFFXMLElement*& Out_Element, UObject*
     TArray<FString> AttributeNames;
     Attributes.GenerateKeyArray(AttributeNames);
     
-    UFFXMLElement* ChildElement = NewObject<UFFXMLElement>();
-    UFFXMLElement* ParentElement = Cast<UFFXMLElement>(Target);
+    UFFTinyXml2_Element* ChildElement = NewObject<UFFTinyXml2_Element>();
+    UFFTinyXml2_Element* ParentElement = Cast<UFFTinyXml2_Element>(Target);
 
     if (IsValid(ParentElement))
     {
@@ -104,7 +104,7 @@ bool UFF_XMLBPLibrary::XML_Element_Add_Map(UFFXMLElement*& Out_Element, UObject*
         ParentElement->Element->InsertEndChild(ChildElement->Element);
     }
 
-    UFFXMLDoc* ParentDocument = Cast<UFFXMLDoc>(Target);
+    UFFTinyXml2_Doc* ParentDocument = Cast<UFFTinyXml2_Doc>(Target);
     if (IsValid(ParentDocument))
     {
         ChildElement->Element = ParentDocument->Document.NewElement(TCHAR_TO_UTF8(*ElementName));
@@ -134,15 +134,15 @@ bool UFF_XMLBPLibrary::XML_Element_Add_Map(UFFXMLElement*& Out_Element, UObject*
     return true;
 }
 
-bool UFF_XMLBPLibrary::XML_Element_Add_Single(UFFXMLElement*& Out_Element, UObject* Target, FString ElementName, FString ElementValue)
+bool UFF_TinyXml2BPLibrary::TinyXML2_Element_Add_Single(UFFTinyXml2_Element*& Out_Element, UObject* Target, FString ElementName, FString ElementValue)
 {
     if (!IsValid(Target))
     {
         return false;
     }
 
-    UFFXMLElement* ChildElement = NewObject<UFFXMLElement>();
-    UFFXMLElement* ParentElement = Cast<UFFXMLElement>(Target);
+    UFFTinyXml2_Element* ChildElement = NewObject<UFFTinyXml2_Element>();
+    UFFTinyXml2_Element* ParentElement = Cast<UFFTinyXml2_Element>(Target);
 
     if (IsValid(ParentElement))
     {
@@ -156,7 +156,7 @@ bool UFF_XMLBPLibrary::XML_Element_Add_Single(UFFXMLElement*& Out_Element, UObje
         ParentElement->Element->InsertEndChild(ChildElement->Element);
     }
 
-    UFFXMLDoc* ParentDocument = Cast<UFFXMLDoc>(Target);
+    UFFTinyXml2_Doc* ParentDocument = Cast<UFFTinyXml2_Doc>(Target);
     if (IsValid(ParentDocument))
     {
         ChildElement->Element = ParentDocument->Document.NewElement(TCHAR_TO_UTF8(*ElementName));
@@ -179,7 +179,7 @@ bool UFF_XMLBPLibrary::XML_Element_Add_Single(UFFXMLElement*& Out_Element, UObje
     return true;
 }
 
-bool UFF_XMLBPLibrary::XML_Comment_Add(UFFXMLComment*& Out_Comment, UObject* Target, FString In_Comment)
+bool UFF_TinyXml2BPLibrary::TinyXML2_Comment_Add(UFFTinyXml2_Comment*& Out_Comment, UObject* Target, FString In_Comment)
 {
     if (!IsValid(Target))
     {
@@ -187,14 +187,14 @@ bool UFF_XMLBPLibrary::XML_Comment_Add(UFFXMLComment*& Out_Comment, UObject* Tar
     }
 
     XMLComment* CommentNode = nullptr;
-    UFFXMLElement* Element = Cast<UFFXMLElement>(Target);
+    UFFTinyXml2_Element* Element = Cast<UFFTinyXml2_Element>(Target);
 
     if (IsValid(Element))
     {
         CommentNode = Element->Element->InsertNewComment(TCHAR_TO_UTF8(*In_Comment));
     }
 
-    UFFXMLDoc* Document = Cast<UFFXMLDoc>(Target);
+    UFFTinyXml2_Doc* Document = Cast<UFFTinyXml2_Doc>(Target);
     if (IsValid(Document))
     {
         CommentNode = Document->Document.NewComment(TCHAR_TO_UTF8(*In_Comment));
@@ -206,13 +206,13 @@ bool UFF_XMLBPLibrary::XML_Comment_Add(UFFXMLComment*& Out_Comment, UObject* Tar
         return false;
     }
 
-    Out_Comment = NewObject<UFFXMLComment>();
+    Out_Comment = NewObject<UFFTinyXml2_Comment>();
     Out_Comment->Comment = CommentNode;
 
     return true;
 }
 
-bool UFF_XMLBPLibrary::XML_Element_Remove(UPARAM(ref)UFFXMLDoc*& In_Doc, UPARAM(ref)UObject*& Target)
+bool UFF_TinyXml2BPLibrary::TinyXML2_Element_Remove(UPARAM(ref)UFFTinyXml2_Doc*& In_Doc, UPARAM(ref)UObject*& Target)
 {
     if (!IsValid(In_Doc))
     {
@@ -224,7 +224,7 @@ bool UFF_XMLBPLibrary::XML_Element_Remove(UPARAM(ref)UFFXMLDoc*& In_Doc, UPARAM(
         return false;
     }
 
-    UFFXMLElement* TargetElement = Cast<UFFXMLElement>(Target);
+    UFFTinyXml2_Element* TargetElement = Cast<UFFTinyXml2_Element>(Target);
     if (IsValid(TargetElement))
     {
         In_Doc->Document.DeleteNode(TargetElement->Element);
@@ -233,7 +233,7 @@ bool UFF_XMLBPLibrary::XML_Element_Remove(UPARAM(ref)UFFXMLDoc*& In_Doc, UPARAM(
         return true;
     }
 
-    UFFXMLComment* TargetComment = Cast<UFFXMLComment>(Target);
+    UFFTinyXml2_Comment* TargetComment = Cast<UFFTinyXml2_Comment>(Target);
     if (IsValid(TargetComment))
     {
         In_Doc->Document.DeleteNode(TargetComment->Comment);
