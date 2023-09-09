@@ -4,7 +4,14 @@
 #include "FF_TinyXml2.h"
 
 // UE Includes.
+#include "Containers/UnrealString.h"
 #include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetStringLibrary.h"
+#include "Misc/FileHelper.h"
+
+THIRD_PARTY_INCLUDES_START
+#include <string>
+THIRD_PARTY_INCLUDES_END
 
 UFF_TinyXml2BPLibrary::UFF_TinyXml2BPLibrary(const FObjectInitializer& ObjectInitializer)
 : Super(ObjectInitializer)
@@ -19,6 +26,92 @@ void UFF_TinyXml2BPLibrary::TinyXML2_Doc_Create(UFFTinyXml2_Doc*& Out_Doc, FStri
     {
         XMLDeclaration* Declaration = Out_Doc->Document.NewDeclaration(CustomDeclaration.IsEmpty() ? NULL : TCHAR_TO_UTF8(*CustomDeclaration));
         Out_Doc->Document.InsertFirstChild(Declaration);
+    }
+}
+
+bool UFF_TinyXml2BPLibrary::TinyXML2_Open_File(UFFTinyXml2_Doc*& Out_Doc, FString In_Path)
+{
+    if (In_Path.IsEmpty())
+    {
+        return false;
+    }
+
+    FString XML_Path = "";
+    FILE* XML_File = NULL;
+
+#ifdef _WIN64
+
+    XML_Path = In_Path;
+
+    FPaths::MakeStandardFilename(XML_Path);
+    if (!FPaths::FileExists(XML_Path))
+    {
+        fclose(XML_File);
+        return false;
+    }
+
+    FPaths::MakePlatformFilename(XML_Path);
+    fopen_s(&XML_File, TCHAR_TO_UTF8(*XML_Path), "rb");
+
+    if (!XML_File)
+    {
+        return false;
+    }
+
+#else
+
+    XML_Path = FPlatformFileManager::Get().GetPlatformFile().ConvertToAbsolutePathForExternalAppForRead(*XML_Path);
+    XML_File = fopen(TCHAR_TO_UTF8(*XML_Path), "rb");
+
+    if (!XML_File)
+    {
+        return false;
+    }
+
+#endif // 
+
+    Out_Doc = NewObject<UFFTinyXml2_Doc>();
+    XMLError Result = Out_Doc->Document.LoadFile(XML_File);
+    fclose(XML_File);
+
+    if (Result == XML_SUCCESS)
+    {
+        return true;
+    }
+
+    else
+    {
+        Out_Doc = nullptr;
+        return false;
+    }
+}
+
+bool UFF_TinyXml2BPLibrary::TinyXML2_Open_Memory(UFFTinyXml2_Doc*& Out_Doc, TArray<uint8> In_Bytes)
+{
+    if (In_Bytes.Num() == 0)
+    {
+        return false;
+    }
+
+    const std::string XML_String(reinterpret_cast<const char*>(In_Bytes.GetData()), In_Bytes.Num());
+
+    if (XML_String.empty())
+    {
+        return false;
+    }
+
+    Out_Doc = NewObject< UFFTinyXml2_Doc>();
+    XMLError Result = Out_Doc->Document.Parse(XML_String.c_str());
+
+    if (Result == XML_SUCCESS)
+    {
+        return true;
+    }
+
+    else
+    {
+        Out_Doc = nullptr;
+        return false;
     }
 }
 
@@ -40,11 +133,6 @@ bool UFF_TinyXml2BPLibrary::TinyXML2_Doc_Save(UPARAM(ref)UFFTinyXml2_Doc*& In_Do
     if (PlatformName == "Windows")
     {
         FPaths::MakePlatformFilename(Path);
-    }
-
-    else if (PlatformName == "Android")
-    {
-
     }
 
     In_Doc->Document.SaveFile(TCHAR_TO_UTF8(*Path));

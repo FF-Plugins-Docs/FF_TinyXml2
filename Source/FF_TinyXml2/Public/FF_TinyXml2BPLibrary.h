@@ -58,6 +58,12 @@ class UFF_TinyXml2BPLibrary : public UBlueprintFunctionLibrary
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "TinyXML2 - Create Document", Keywords = "tinyxml2, xml, document, create"), Category = "FF_TinyXml2")
 	static void TinyXML2_Doc_Create(UFFTinyXml2_Doc*& Out_Doc, FString CustomDeclaration, bool bAddDeclaration = true);
 
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "TinyXML2 - Open File", Keywords = "tinyxml2, xml, document, open, file"), Category = "FF_TinyXml2")
+	static bool TinyXML2_Open_File(UFFTinyXml2_Doc*& Out_Doc, FString XML_Path);
+
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "TinyXML2 - Open From Memory", Keywords = "tinyxml2, xml, document, open, memory, buffer, bytes"), Category = "FF_TinyXml2")
+	static bool TinyXML2_Open_Memory(UFFTinyXml2_Doc*& Out_Doc, TArray<uint8> In_Bytes);
+
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "TinyXML2 - Save Document", Keywords = "tinyxml2, xml, document, save"), Category = "FF_TinyXml2")
 	static bool TinyXML2_Doc_Save(UPARAM(ref)UFFTinyXml2_Doc*& In_Doc, FString In_Path);
 
