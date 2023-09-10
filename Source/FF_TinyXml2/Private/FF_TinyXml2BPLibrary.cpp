@@ -37,7 +37,7 @@ bool UFF_TinyXml2BPLibrary::TinyXML2_Open_File(UFFTinyXml2_Doc*& Out_Doc, FStrin
     }
 
     FString XML_Path = "";
-    FILE* XML_File = NULL;
+    FILE* XML_File = nullptr;
 
 #ifdef _WIN64
 
@@ -46,6 +46,7 @@ bool UFF_TinyXml2BPLibrary::TinyXML2_Open_File(UFFTinyXml2_Doc*& Out_Doc, FStrin
     FPaths::MakeStandardFilename(XML_Path);
     if (!FPaths::FileExists(XML_Path))
     {
+#pragma warning(disable : 6387)
         fclose(XML_File);
         return false;
     }
