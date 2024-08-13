@@ -3,11 +3,7 @@
 #pragma once
 
 #include "Kismet/BlueprintFunctionLibrary.h"
-
-THIRD_PARTY_INCLUDES_START
-#include "tinyxml2.h"
-THIRD_PARTY_INCLUDES_END
-
+#include "FF_TINYXML2_Includes.h"
 #include "FF_TinyXml2BPLibrary.generated.h"
 
 using namespace tinyxml2;

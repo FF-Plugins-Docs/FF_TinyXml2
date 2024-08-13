@@ -3,16 +3,6 @@
 #include "FF_TinyXml2BPLibrary.h"
 #include "FF_TinyXml2.h"
 
-// UE Includes.
-#include "Containers/UnrealString.h"
-#include "Kismet/GameplayStatics.h"
-#include "Kismet/KismetStringLibrary.h"
-#include "Misc/FileHelper.h"
-
-THIRD_PARTY_INCLUDES_START
-#include <string>
-THIRD_PARTY_INCLUDES_END
-
 UFF_TinyXml2BPLibrary::UFF_TinyXml2BPLibrary(const FObjectInitializer& ObjectInitializer)
 : Super(ObjectInitializer)
 {
@@ -151,7 +141,7 @@ bool UFF_TinyXml2BPLibrary::TinyXML2_Doc_Print(UPARAM(ref)UFFTinyXml2_Doc*& In_D
     XMLPrinter Printer;
     In_Doc->Document.Print(&Printer);
 
-    Out_String = Printer.CStr();
+    Out_String = UTF8_TO_TCHAR(Printer.CStr());
 
     return true;
 }
