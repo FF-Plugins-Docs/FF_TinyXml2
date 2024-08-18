@@ -10,8 +10,15 @@ public class FF_TinyXml2 : ModuleRules
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 
-        string Location_TinyXML = "../Source/FF_TinyXml2/ThirdParty/tinyxml";
-        PrivateIncludePaths.Add(Location_TinyXML);
+        bEnableUndefinedIdentifierWarnings = false;
+        bEnableExceptions = true;
+
+        if (UnrealTargetPlatform.Win64 == Target.Platform)
+        {
+            bUseRTTI = true;
+        }
+
+        PrivateIncludePaths.Add(Path.Combine(ModuleDirectory, "ThirdParty", "tinyxml"));
 
         PublicDependencyModuleNames.AddRange(
 			new string[]
