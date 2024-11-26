@@ -10,7 +10,7 @@ public class FF_TinyXml2 : ModuleRules
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 
-        bEnableUndefinedIdentifierWarnings = false;
+        UndefinedIdentifierWarningLevel = WarningLevel.Off;
         bEnableExceptions = true;
 
         if (UnrealTargetPlatform.Win64 == Target.Platform)
