@@ -18,7 +18,10 @@ public class FF_TinyXml2 : ModuleRules
             bUseRTTI = true;
         }
 
-        PrivateIncludePaths.Add(Path.Combine(ModuleDirectory, "ThirdParty", "tinyxml"));
+        if (UnrealTargetPlatform.Android == Target.Platform || UnrealTargetPlatform.IOS == Target.Platform)
+        {
+            PrivateIncludePaths.Add(Path.Combine(ModuleDirectory, "ThirdParty", "tinyxml"));
+        }
 
         PublicDependencyModuleNames.AddRange(
 			new string[]
@@ -35,6 +38,7 @@ public class FF_TinyXml2 : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore",
+                "TinyXML2"
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);
